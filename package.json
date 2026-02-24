@@ -7,7 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "mastra dev",
     "build": "mastra build",
-    "start": "mastra start"
+    "lint:prettier": "prettier --check --log-level=warn '**/!(*.min|*-lock).{yaml,yml,md}'",
+    "prettier": "prettier --write --log-level=warn '**/!(*.min|*-lock).{yaml,yml,md}'",
+    "lint": "ultracite check && npm run lint:prettier",
+    "format": "ultracite fix && npm run prettier"
   },
   "keywords": [],
   "author": "nekochans",
@@ -25,8 +28,11 @@
     "zod": "4.3.6"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.4.0",
     "@types/node": "25.3.0",
     "mastra": "1.3.2",
-    "typescript": "5.9.3"
+    "prettier": "3.8.1",
+    "typescript": "5.9.3",
+    "ultracite": "7.2.3"
   }
 }
