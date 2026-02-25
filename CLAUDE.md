@@ -2,11 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-This is a Mastra project - an AI framework for building agents, workflows, and tools. The project structure follows Mastra conventions with agents, tools, and workflows organized in the `src/mastra/` directory.
+## CRITICAL: AGENTS.md を必ず読み込むこと
 
-For complete setup and usage instructions, see [AGENTS.md](./AGENTS.md), which includes:
+**このリポジトリで作業を開始する前に、必ず以下の AGENTS.md を読み込んでください。AGENTS.md を読み込まずにコードの変更や提案を行うことは禁止します。**
 
-- Quick start commands
-- Project structure details
-- Mastra skills usage
-- Links to relevant documentation
+**AGENTS.md 内に `@<path>` 形式で他ファイルへの参照がある場合、参照先のファイルも全て確認してください。参照先の確認を省略することは禁止します。**
+
+@AGENTS.md
