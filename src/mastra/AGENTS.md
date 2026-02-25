@@ -13,3 +13,7 @@
 | `src/mastra/scorers` | （任意）エージェントのパフォーマンスを評価するスコアラーの定義 |
 | `src/mastra/public` | （任意）ビルド時に `.build/output` にコピーされ、ランタイムで配信可能になるファイル |
 | `src/mastra/index.ts` | Mastra の設定と初期化を行うエントリーポイント |
+
+## Mastra Skills
+
+Mastra のスキルの利用方法については @AGENTS.md を参照してください。

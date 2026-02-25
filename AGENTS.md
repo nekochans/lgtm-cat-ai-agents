@@ -90,6 +90,8 @@ Skills are automatically available to agents in your project once installed. Age
 `src/` 配下のディレクトリ構成と各レイヤーの責務・依存関係については以下を参照してください:
 
 @src/AGENTS.md
+@src/mastra/AGENTS.md
+@src/features/AGENTS.md
 
 ## GitとGitHubワークフロールール
 
