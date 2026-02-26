@@ -1,27 +1,56 @@
 # lgtm-cat-ai-agents
 
-Welcome to your new [Mastra](https://mastra.ai/) project! We're excited to see what you'll build.
+[LGTMeow](https://lgtmeow.com) で利用するAIエージェントのバックエンドプロジェクト。
 
 ## Getting Started
 
-Start the development server:
+### 1. 依存packageのインストール
 
-```shell
+```bash
+npm ci
+```
+
+### 2. 環境変数の設定
+
+`.env` を配置します。
+
+必要な環境変数は `.env.exmple` に記載済です。
+
+実際の値に関しては機密情報を含むため関係者にだけ共有します。
+
+### 3. 開発サーバーの起動
+
+以下を実行します。
+
+```bash
 npm run dev
 ```
 
-Open [http://localhost:4111](http://localhost:4111) in your browser to access [Mastra Studio](https://mastra.ai/docs/getting-started/studio). It provides an interactive UI for building and testing your agents, along with a REST API that exposes your Mastra application as a local service. This lets you start building without worrying about integration right away.
+開発用のWebUIが起動してここからエージェントの動作確認ができます。
 
-You can start editing files inside the `src/mastra` directory. The development server will automatically reload whenever you make changes.
+開発中は基本的にこのWebUIで動作確認を行うことが多いと思います。
 
-## Learn more
+## APIサーバーへの通信
 
-To learn more about Mastra, visit our [documentation](https://mastra.ai/docs/). Your bootstrapped project includes example code for [agents](https://mastra.ai/docs/agents/overview), [tools](https://mastra.ai/docs/agents/using-tools), [workflows](https://mastra.ai/docs/workflows/overview), [scorers](https://mastra.ai/docs/evals/overview), and [observability](https://mastra.ai/docs/observability/overview).
+動作確認用の天気予報エージェントに接続する為には以下のようにcurlコマンドを実行します。
 
-If you're new to AI agents, check out our [course](https://mastra.ai/course) and [YouTube videos](https://youtube.com/@mastra-ai). You can also join our [Discord](https://discord.gg/BTYqqHKUrf) community to get help and share your projects.
+```bash
+curl -v -N -X POST \
+-H "Content-Type: application/json" \
+-d '{
+  "messages": [
+    { "role": "user", "content": "今日の新宿の天気が知りたいです。日本語で教えてください。" }
+  ]
+}' \
+http://localhost:4111/api/agents/weatherAgent/stream
+```
 
-## Deploy on Mastra Cloud
+これでServer Sent Events（SSE）形式のデータが返ってきます。
 
-[Mastra Cloud](https://cloud.mastra.ai/) gives you a serverless agent environment with atomic deployments. Access your agents from anywhere and monitor performance. Make sure they don't go off the rails with evals and tracing.
+`weatherAgent` の部分をエージェントIDに変更することで他のエージェントにも接続できます。
 
-Check out the [deployment guide](https://mastra.ai/docs/deployment/overview) for more details.
+エージェントの一覧は以下のAPIを実行することで取得出来ます。
+
+```bash
+curl -v http://localhost:4111/api/agents | jq
+```
