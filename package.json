@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "vitest run",
+    "test:ci": "vitest run --coverage",
     "dev": "mastra dev",
     "build": "mastra build",
     "lint:prettier": "prettier --check --log-level=warn '**/!(*.min|*-lock).{yaml,yml,md}'",
@@ -33,6 +34,7 @@
     "mastra": "1.3.2",
     "prettier": "3.8.1",
     "typescript": "5.9.3",
-    "ultracite": "7.2.3"
+    "ultracite": "7.2.3",
+    "vitest": "4.0.18"
   }
 }
