@@ -93,6 +93,15 @@ Skills are automatically available to agents in your project once installed. Age
 @src/mastra/AGENTS.md
 @src/features/AGENTS.md
 
+## 品質管理
+
+全ての開発タスク完了時に、以下の手順を順番に実施してください。1つでも異常終了した場合は、問題点を修正してエラーが出なくなるまで修正を繰り返してください。
+
+1. `npm run format` — Formatterの適用
+2. `npm run lint` — Linterエラーがないことを確認
+3. `npm run test` — テストコードの実行
+4. `npm run build` — ビルドが正常終了することを確認
+
 ## GitとGitHubワークフロールール
 
 ### GitHubの利用ルール
