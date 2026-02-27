@@ -7,6 +7,7 @@ import {
   Observability,
   SensitiveDataFilter,
 } from "@mastra/observability";
+import { getTursoConfig } from "../lib/turso/turso-config";
 import { weatherAgent } from "./agents/weather-agent";
 import {
   completenessScorer,
@@ -14,6 +15,8 @@ import {
   translationScorer,
 } from "./scorers/weather-scorer";
 import { weatherWorkflow } from "./workflows/weather-workflow";
+
+const tursoConfig = getTursoConfig();
 
 export const mastra = new Mastra({
   workflows: { weatherWorkflow },
@@ -25,12 +28,8 @@ export const mastra = new Mastra({
   },
   storage: new LibSQLStore({
     id: "mastra-storage",
-    url:
-      process.env.TURSO_DATABASE_URL ??
-      (() => {
-        throw new Error("TURSO_DATABASE_URL is not set");
-      })(),
-    authToken: process.env.TURSO_AUTH_TOKEN,
+    url: tursoConfig.databaseUrl,
+    authToken: tursoConfig.authToken,
   }),
   logger: new PinoLogger({
     name: "Mastra",
