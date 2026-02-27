@@ -4,16 +4,16 @@
 
 ## ディレクトリ概要
 
-| ディレクトリ / ファイル | 責務                                       |
-| --- |------------------------------------------|
-| `src/features/` | 機能単位のコード（詳細は @src/features/AGENTS.md 参照） |
-| `src/types/` | **共通利用する**型定義（主にドメインオブジェクト）              |
-| `src/lib/` | 外部ライブラリに依存した処理                           |
-| `src/functions/` | **共通利用する**ビジネスロジック（原則として外部ライブラリ非依存）      |
-| `src/constants/` | **共通利用する**定数                             |
-| `src/utils/` | **共通利用する**汎用関数（ビジネスロジックを持たない）            |
-| `src/mastra/` | Mastra 関連ファイル（詳細は @src/mastra/AGENTS.md ） |
-| `src/scripts/` | ビルド・開発用スクリプト                             |
+| ディレクトリ / ファイル | 責務                                                               |
+| ----------------------- | ------------------------------------------------------------------ |
+| `src/features/`         | 機能単位のコード（詳細は @src/features/AGENTS.md 参照）            |
+| `src/types/`            | **共通利用する**型定義（主にドメインオブジェクト）                 |
+| `src/lib/`              | 外部ライブラリに依存した処理                                       |
+| `src/functions/`        | **共通利用する**ビジネスロジック（原則として外部ライブラリ非依存） |
+| `src/constants/`        | **共通利用する**定数                                               |
+| `src/utils/`            | **共通利用する**汎用関数（ビジネスロジックを持たない）             |
+| `src/mastra/`           | Mastra 関連ファイル（詳細は @src/mastra/AGENTS.md ）               |
+| `src/scripts/`          | ビルド・開発用スクリプト                                           |
 
 ## features ディレクトリの概要
 
@@ -61,7 +61,7 @@ src/types/            → 他レイヤーに依存しない
 // src/types/upload/storage.ts に抽象インターフェースを定義
 export type UploadToStorageFunc = (
   file: File,
-  presignedPutUrl: string
+  presignedPutUrl: string,
 ) => Promise<UploadToStorageResult>;
 
 // src/lib/ 側で型に準拠した実装を定義
@@ -69,7 +69,7 @@ import type { UploadToStorageFunc } from "@/types/upload/storage";
 
 export const uploadToR2: UploadToStorageFunc = async (
   file: File,
-  presignedPutUrl: string
+  presignedPutUrl: string,
 ): Promise<UploadToStorageResult> => {
   // 実装
 };

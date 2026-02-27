@@ -394,7 +394,7 @@ import type { UploadToStorageFunc } from "@/features/upload/types/storage";
 
 export const uploadToR2: UploadToStorageFunc = async (
   file: File,
-  presignedPutUrl: string
+  presignedPutUrl: string,
 ): Promise<UploadToStorageResult> => {
   // 実装
 };
@@ -404,7 +404,7 @@ export const uploadToR2: UploadToStorageFunc = async (
 // ❌ 非推奨: 型を明示しない宣言
 export async function uploadToR2(
   file: File,
-  presignedPutUrl: string
+  presignedPutUrl: string,
 ): Promise<UploadToStorageResult> {
   // 実装
 }
@@ -508,7 +508,7 @@ describe("src/features/language.ts mightExtractLanguageFromAppPath TestCases", (
     "should return $expected when appPath is $appPath",
     ({ appPath, expected }: TestTable) => {
       expect(mightExtractLanguageFromAppPath(appPath)).toStrictEqual(expected);
-    }
+    },
   );
 });
 ```

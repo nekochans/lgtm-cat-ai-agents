@@ -24,7 +24,7 @@ export const translationScorer = createScorer({
     "Checks that non-English location names are translated and used correctly",
   type: "agent",
   judge: {
-    model: "google/gemini-2.5-pro",
+    model: "google/gemini-3-pro-preview",
     instructions:
       "You are an expert evaluator of translation quality for geographic locations. " +
       "Determine whether the user text mentions a non-English location and whether the assistant correctly uses an English translation of that location. " +
@@ -70,18 +70,21 @@ export const translationScorer = createScorer({
         `,
   })
   .generateScore(({ results }) => {
-    const r = (results as any)?.analyzeStepResult || {};
-    if (!r.nonEnglish) {
+    const { analyzeStepResult } = results;
+    if (!analyzeStepResult.nonEnglish) {
       return 1; // If not applicable, full credit
     }
-    if (r.translated) {
-      return Math.max(0, Math.min(1, 0.7 + 0.3 * (r.confidence ?? 1)));
+    if (analyzeStepResult.translated) {
+      return Math.max(
+        0,
+        Math.min(1, 0.7 + 0.3 * (analyzeStepResult.confidence ?? 1))
+      );
     }
     return 0; // Non-English but not translated
   })
   .generateReason(({ results, score }) => {
-    const r = (results as any)?.analyzeStepResult || {};
-    return `Translation scoring: nonEnglish=${r.nonEnglish ?? false}, translated=${r.translated ?? false}, confidence=${r.confidence ?? 0}. Score=${score}. ${r.explanation ?? ""}`;
+    const { analyzeStepResult } = results;
+    return `Translation scoring: nonEnglish=${analyzeStepResult.nonEnglish ?? false}, translated=${analyzeStepResult.translated ?? false}, confidence=${analyzeStepResult.confidence ?? 0}. Score=${score}. ${analyzeStepResult.explanation ?? ""}`;
   });
 
 export const scorers = {
