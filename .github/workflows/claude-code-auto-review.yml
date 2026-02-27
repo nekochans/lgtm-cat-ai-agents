@@ -43,6 +43,7 @@ jobs:
             問題がある場合は、改善点を具体的に指摘してください。
 
           claude_args: |
+            --model claude-opus-4-6
             --mcp-config .github/mcp-servers.json
             --allowedTools "Bash(git diff),Read,LS,Glob,Grep,mcp__github__pull_request_read,mcp__github__get_pull_request,mcp__github__get_pull_request_files,mcp__github__get_pull_request_diff,mcp__github__add_issue_comment,mcp__github__get_issue,mcp__lgtmeow__get_random_lgtm_markdown"
 
