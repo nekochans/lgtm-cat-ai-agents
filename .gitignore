@@ -144,3 +144,6 @@ output.txt
 *.db-*
 
 .mcp.json
+
+# AIコーディングエージェントに対するユーザープロンプト置き場
+user-prompt/
