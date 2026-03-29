@@ -34,11 +34,15 @@
 
 ## 更新対象パッケージ一覧
 
+**重要:** 以下のバージョンは計画作成時点（2026-03-29）の調査結果である。実装直前に `npm view <パッケージ名> version` で最新安定版を再確認し、その結果で固定すること。計画内のコマンド例に記載されたバージョン番号もその時点の最新に読み替えること。
+
+**注意:** 本計画の「事前に把握している破壊的変更」セクションは計画作成時点のバージョンに基づく調査結果である。実装直前に確定したバージョンが計画作成時の調査範囲を超えている場合（例: `@mastra/core` が 1.17.0 より新しい場合）、確定バージョンまでの changelog・migration guide・embedded docs を追加で確認し、未知の破壊的変更がないか検証すること。
+
 ### dependencies
 
-| パッケージ | 現在 | 更新後 | 備考 |
+| パッケージ | 現在 | 計画作成時の最新 | 備考 |
 |---|---|---|---|
-| `@mastra/core` | 1.8.0 | 1.16.0 | 大幅更新（8バージョン差） |
+| `@mastra/core` | 1.8.0 | 1.17.0 | 大幅更新 |
 | `@mastra/memory` | 1.5.2 | 1.10.0 | 大幅更新 |
 | `@mastra/observability` | 1.2.1 | 1.5.1 | |
 | `@mastra/libsql` | 1.6.2 | 1.7.2 | |
@@ -48,13 +52,13 @@
 
 ### devDependencies
 
-| パッケージ | 現在 | 更新後 | 備考 |
+| パッケージ | 現在 | 計画作成時の最新 | 備考 |
 |---|---|---|---|
 | `typescript` | 5.9.3 | 6.0.2 | メジャーバージョンアップ |
-| `vitest` | 4.0.18 | 4.1.1 | 破壊的変更なし |
-| `@vitest/coverage-v8` | 4.0.18 | 4.1.1 | vitest と同バージョンに揃える |
+| `vitest` | 4.0.18 | 4.1.2 | 破壊的変更なし |
+| `@vitest/coverage-v8` | 4.0.18 | 4.1.2 | vitest と同バージョンに揃える |
 | `@biomejs/biome` | 2.4.4 | 2.4.9 | パッチ更新 |
-| `ultracite` | 7.2.4 | 7.3.2 | マイナー更新 |
+| `ultracite` | 7.2.4 | 7.4.0 | マイナー更新 |
 | `@types/node` | 25.3.2 | 25.5.0 | |
 | `mastra`（CLI） | 1.3.5 | 1.3.15 | |
 | `prettier` | 3.8.1 | 3.8.1 | 更新不要（既に最新） |
@@ -193,11 +197,11 @@ Mastra 内部で AI SDK がアップグレードされた。`agent.stream()` や
 
 `npm run dev`（`mastra dev`）と `npm run build`（`mastra build`）は Mastra CLI を使用する。CLI のバージョンが 1.3.5 → 1.3.15 に変わるため、dev サーバーやビルドプロセスに変更がある可能性がある。ステップ 4 の動作確認で問題がないか確認する。
 
-### Vitest 4.0.18 → 4.1.1
+### Vitest 4.0.18 → 最新版
 
 **破壊的変更なし。** 新機能の追加のみ（`aroundEach`/`aroundAll` フック、タグ機能等）。
 
-### Biome 2.4.4 → 2.4.9, Ultracite 7.2.4 → 7.3.2
+### Biome 2.4.4 → 最新版, Ultracite 7.2.4 → 最新版
 
 パッチ/マイナー更新。新しいリントルールが追加されている可能性がある。更新後に `npm run format` → `npm run lint` で確認する。
 
@@ -232,10 +236,20 @@ git status
 
 Mastra パッケージより先に TypeScript と開発ツールを更新する。TypeScript のメジャーバージョンアップにより `tsconfig.json` の修正が必要なため、先に対応して基盤を安定させる。
 
-#### 2-1. devDependencies のパッケージ更新
+#### 2-1. 最新バージョンの確認と devDependencies のパッケージ更新
+
+まず、各パッケージの最新安定版を確認する:
 
 ```bash
-npm install --save-dev typescript@6.0.2 vitest@4.1.1 @vitest/coverage-v8@4.1.1 @biomejs/biome@2.4.9 ultracite@7.3.2 @types/node@25.5.0 mastra@1.3.15
+npm view typescript version && npm view vitest version && npm view @vitest/coverage-v8 version && npm view @biomejs/biome version && npm view ultracite version && npm view @types/node version && npm view mastra version
+```
+
+確認したバージョンが計画作成時の調査範囲を超えている場合（例: TypeScript が 6.0.2 より新しい場合）、該当パッケージの changelog・migration guide を確認し、追加の破壊的変更がないか検証する。
+
+確認したバージョンで更新する（以下は計画作成時の例。実際のバージョンは上記の確認結果に置き換えること）:
+
+```bash
+npm install --save-dev typescript@<最新版> vitest@<最新版> @vitest/coverage-v8@<最新版> @biomejs/biome@<最新版> ultracite@<最新版> @types/node@<最新版> mastra@<最新版>
 ```
 
 #### 2-2. `tsconfig.json` の修正
@@ -304,9 +318,11 @@ npm run test
 
 **ステップ 2 の完了基準:** `npx tsc --noEmit`、`npm run format`、`npm run lint`、`npm run test` が全てエラーなしで完了すること。
 
-#### 2-5. ステップ 2 完了時のコミット（推奨）
+#### 2-5. ステップ 2 完了時のコミット（推奨・ユーザー承認必須）
 
 Mastra パッケージ更新で問題が発生した場合の切り分けを容易にするため、ここでコミットしておく。
+
+**注意:** AGENTS.md のルールに従い、コミット実行前に必ずユーザーの承認を得ること。承認が得られるまでコミットは行わない。
 
 ```bash
 # format で修正されたファイルがあればそれも含める
@@ -317,12 +333,20 @@ git commit -m "#3 TypeScriptと開発ツールを最新バージョンに更新"
 
 ### ステップ 3: Mastra 関連パッケージの更新
 
-#### 3-1. Mastra パッケージの一括更新
+#### 3-1. 最新バージョンの確認と Mastra パッケージの一括更新
 
-Mastra 公式ドキュメントの推奨に従い、全ての `@mastra` パッケージを同時に更新する。
+まず、各パッケージの最新安定版を確認する:
 
 ```bash
-npm install @mastra/core@1.16.0 @mastra/memory@1.10.0 @mastra/observability@1.5.1 @mastra/libsql@1.7.2 @mastra/loggers@1.0.3
+npm view @mastra/core version && npm view @mastra/memory version && npm view @mastra/observability version && npm view @mastra/libsql version && npm view @mastra/loggers version && npm view @mastra/evals version
+```
+
+確認したバージョンが計画作成時の調査範囲を超えている場合（例: `@mastra/core` が 1.17.0 より新しい場合）、該当パッケージの changelog・migration guide・embedded docs を確認し、追加の破壊的変更がないか検証する。
+
+Mastra 公式ドキュメントの推奨に従い、全ての `@mastra` パッケージを同時に更新する（バージョンは上記の確認結果に置き換えること）:
+
+```bash
+npm install @mastra/core@<最新版> @mastra/memory@<最新版> @mastra/observability@<最新版> @mastra/libsql@<最新版> @mastra/loggers@<最新版>
 ```
 
 **注意:** `@mastra/evals` は 1.1.2 で既に最新のため更新不要。ただし `@mastra/core` のメジャーアップデートにより `@mastra/evals` が要求する `@mastra/core` のバージョン範囲と合わなくなる可能性がある。次の 3-2 で確認する。
@@ -539,6 +563,8 @@ npm run build
 
 実装の区切りごとにコミットする。コミットメッセージには `#3` を含める（AGENTS.md のルールに従う）。
 
+**重要:** AGENTS.md のルールに従い、全てのコミットはユーザーの承認を得てから実行すること。コミットタイミングで必ずユーザーに確認を取り、承認が得られるまでコミットは行わない。
+
 | タイミング | コミットメッセージ例 |
 |---|---|
 | ステップ 2 完了後 | `#3 TypeScriptと開発ツールを最新バージョンに更新` |
@@ -644,9 +670,19 @@ npm run format
 
 パッケージ更新で重大な問題が発生し、修正が困難な場合のロールバック手順:
 
+**重要:** ロールバック操作は作業中の変更を破棄する破壊的操作を含む。実行前に必ずユーザーの承認を得ること。
+
+1. まず、現在の変更内容をユーザーに報告し、ロールバックの承認を得る
+2. 承認後、以下の手順で対象ファイルを限定してロールバックする:
+
 ```bash
-# 変更を全て元に戻す
-git checkout -- .
+# ステップ 3 のロールバック（ステップ 2 のコミット後に問題が発生した場合）
+git checkout HEAD -- package.json package-lock.json src/
+rm -rf node_modules
+npm install
+
+# 全体のロールバック（ステップ 2 のコミット前に問題が発生した場合）
+git checkout HEAD -- package.json package-lock.json tsconfig.json src/
 rm -rf node_modules
 npm install
 ```
