@@ -10,10 +10,10 @@ import {
 import { z } from "zod";
 
 interface TranslationAnalysis {
-  confidence: number;
-  explanation: string;
-  nonEnglish: boolean;
-  translated: boolean;
+  readonly confidence: number;
+  readonly explanation: string;
+  readonly nonEnglish: boolean;
+  readonly translated: boolean;
 }
 
 export const toolCallAppropriatenessScorer = createToolCallAccuracyScorerCode({
