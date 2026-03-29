@@ -9,6 +9,13 @@ import {
 } from "@mastra/evals/scorers/utils";
 import { z } from "zod";
 
+interface TranslationAnalysis {
+  readonly confidence: number;
+  readonly explanation: string;
+  readonly nonEnglish: boolean;
+  readonly translated: boolean;
+}
+
 export const toolCallAppropriatenessScorer = createToolCallAccuracyScorerCode({
   expectedTool: "weatherTool",
   strictMode: false,
@@ -37,7 +44,7 @@ export const translationScorer = createScorer({
     const assistantText = getAssistantMessageFromRunOutput(run.output) || "";
     return { userText, assistantText };
   })
-  .analyze({
+  .analyze<TranslationAnalysis>({
     description:
       "Extract location names and detect language/translation adequacy",
     outputSchema: z.object({
